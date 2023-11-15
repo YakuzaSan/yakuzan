@@ -22,8 +22,9 @@ export default function RootLayout({
           className={inter.className}>
          <AuthContext>
               <ToasterContext/>
-              {children}
+             {children}
          </AuthContext>
+
       </body>
     </html>
   )

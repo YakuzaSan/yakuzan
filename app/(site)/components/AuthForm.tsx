@@ -12,7 +12,6 @@ import {useRouter} from "next/navigation";
 
 
 
-
 type Variant = 'LOGIN' | 'REGISTER';
 const AuthForm = () => {
     const session = useSession();
