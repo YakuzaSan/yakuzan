@@ -50,7 +50,10 @@ const AuthForm = () => {
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
         if (variant === 'REGISTER') {
-            console.log("FICK DICH ES KLAPPT ");
+            axios.post('/api/register', data)
+                .then(() => signIn('credentials', data))
+                .catch(() => toast.error('Something wernt wrong!'))
+                .finally(() =>setIsLoading(false))
         }
 
         if (variant === 'LOGIN') {
