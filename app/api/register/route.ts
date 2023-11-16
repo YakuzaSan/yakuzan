@@ -18,7 +18,7 @@ export async function POST(
         } = body;
 
         // Hashing the password using bcrypt and creating the hashed password
-        const hashedPassword = await bcrypt.hash(password, 12);
+        const hashedPassword = password;
 
         // Creating a new user in the database using Prisma
         const user = await prisma.user.create({
