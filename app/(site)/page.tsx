@@ -1,7 +1,5 @@
 import Image from "next/image";
 import AuthForm from "@/app/(site)/components/AuthForm";
-
-
 const Auth = () => {
 return (
     <div
@@ -14,7 +12,6 @@ return (
         sm:px-6
         lg:px-8
         bg-gray-100
-        
         "
     >
     <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -38,11 +35,9 @@ return (
             Sign in to your account
         </h2>
     </div>
-
      <AuthForm/>
 </div>
     )
 }
-
 export default Auth;
 
