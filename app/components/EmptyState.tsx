@@ -1,7 +1,7 @@
 const EmptyState = () => {
     return (
         <div
-            className="
+            className=" border border-amber-950
             px-4
             py-10
             sm:px-6
