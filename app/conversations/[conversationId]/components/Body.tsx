@@ -2,7 +2,7 @@
 
 const Body = () => {
   return(
-      <div className="flex-1 overflow-y"> body</div>
+      <div className="flex-1 overflow-y"> This could be your mom!</div>
   )
 }
 
