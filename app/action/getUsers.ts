@@ -7,7 +7,7 @@ const getUsers = async () => {
     if (!session?.user?.email) {
         return [];
     }
-   //after we checked that user is correctly
+    //after we checked that user is correctly
     // implemented with "!email" we dont want have the conversation not ourselve but with other
     try {
         const users = await prisma.user.findMany({
