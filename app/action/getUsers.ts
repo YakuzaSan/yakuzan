@@ -8,7 +8,7 @@ const getUsers = async () => {
         return [];
     }
     //after we checked that user is correctly
-    // implemented with "!email" we dont want have the conversation not ourselve but with other
+    // implemented with "!email" because we dont want have the conversation with myself but with other ID
     try {
         const users = await prisma.user.findMany({
             orderBy: {

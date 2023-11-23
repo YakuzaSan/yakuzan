@@ -6,9 +6,7 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import { FullMessageType } from "@/app/types";
-
 import Avatar from "@/app/components/avatar";
-
 
 interface MessageBoxProps {
     data: FullMessageType;
@@ -23,10 +21,12 @@ const MessageBox: React.FC<MessageBoxProps> = ({
     const [imageModalOpen, setImageModalOpen] = useState(false);
 
     const isOwn = session.data?.user?.email === data?.sender?.email
-    const seenList = (data.seen || [])
-        .filter((user) => user.email !== data?.sender?.email)
-        .map((user) => user.name)
-        .join(', ');
+    const seenList = (data.seen || []).filter((user) => user.email !== data?.sender?.email).map((user) => user.name) .join(', ');
+    //filter creates a new array and look if the current user has not the same email as the sender (makes no sense if we see our message but the other person(s) as check status)
+    // map then creates also a new array from the filter
+    // and lastly join makes it to a string (mark, antonio, john)
+
+
 
     const container = clsx('flex gap-3 p-4', isOwn && 'justify-end');
     const avatar = clsx(isOwn && 'order-2');

@@ -3,35 +3,72 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
+
 import useConversation from "@/app/hooks/useConversation";
 import MessageBox from "./MessageBox";
 import { FullMessageType } from "@/app/types";
 
 
 interface BodyProps {
-  initialMessages: FullMessageType[];
+    initialMessages: FullMessageType[];
 }
 
 const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
-  const bottomRef = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState(initialMessages);
+    const bottomRef = useRef<HTMLDivElement>(null);
+    const [messages, setMessages] = useState(initialMessages);
 
-  const { conversationId } = useConversation();
+    const { conversationId } = useConversation();
+    //The useEffect hook will run every time the conversationId changes.
+    // This is because conversationId is provided in the dependency array.
+    // If conversationId stays the same between renders, the effect will not run.
+    // In the second useEffect hook in your code, there is no dependency array provided.
+    // This means it will run after every render.
+    useEffect(() => {
+        axios.post(`/api/conversations/${conversationId}/seen`);
+    }, [conversationId]);
+
+    useEffect(() => {
+
+        bottomRef?.current?.scrollIntoView();
+
+        const messageHandler = (message: FullMessageType) => {
+            axios.post(`/api/conversations/${conversationId}/seen`);
+
+            setMessages((current) => {
+
+
+                return [...current, message]
+            });
+
+            bottomRef?.current?.scrollIntoView();
+        };
+
+        const updateMessageHandler = (newMessage: FullMessageType) => {
+            setMessages((current) => current.map((currentMessage) => {
+                if (currentMessage.id === newMessage.id) {
+                    return newMessage;
+                }
+
+                return currentMessage;
+            }))
+        };
 
 
 
-  return (
-      <div className="flex-1 overflow-y-auto">
-        {messages.map((message, i) => (
-            <MessageBox
-                isLast={i === messages.length - 1}
-                key={message.id}
-                data={message}
-            />
-        ))}
-        <div className="pt-24" ref={bottomRef} />
-      </div>
-  );
+    }, [conversationId]);
+
+    return (
+        <div className="flex-1 overflow-y-auto">
+            {messages.map((message, i) => (
+                <MessageBox
+                    isLast={i === messages.length - 1}
+                    key={message.id}
+                    data={message}
+                />
+            ))}
+            <div className="pt-24" ref={bottomRef} />
+        </div>
+    );
 }
 
 export default Body;

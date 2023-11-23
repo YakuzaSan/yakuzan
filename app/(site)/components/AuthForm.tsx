@@ -11,7 +11,6 @@ import {signIn, useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
 
 
-
 type Variant = 'LOGIN' | 'REGISTER';
 const AuthForm = () => {
     const session = useSession();
@@ -54,11 +53,13 @@ const AuthForm = () => {
                 .then(() => signIn('credentials', data))
                 .catch(() => toast.error('Something wernt wrong!'))
                 .finally(() =>setIsLoading(false))
+
         }
 
         if (variant === 'LOGIN') {
             signIn('credentials',{
                 ...data,
+
                 redirect:false
             })
                 .then((callback) => {
@@ -78,8 +79,7 @@ const AuthForm = () => {
 
     const socialAction = (action: string) => {
         setIsLoading(true);
-        signIn(action, {redirect:false})
-        .then((callback)=> {
+        signIn(action, {redirect:false}).then((callback)=> {
             if(callback?.error ){
                 toast.error('Invalid Credentials');
             }
@@ -105,10 +105,10 @@ const AuthForm = () => {
                     className="space-y-6"
                     onSubmit={handleSubmit(onSubmit)}
                 >
-                    {variant === 'REGISTER' && (
+                    {variant === 'REGISTER' && ( // only needed for register
                         <Input
                             disabled={isLoading}
-                            register={register}
+                            register={register} //data
                             errors={errors}
                             required
                             id="name"
@@ -117,7 +117,7 @@ const AuthForm = () => {
                     )}
                     <Input
                         disabled={isLoading}
-                        register={register}
+                        register={register} //data
                         errors={errors}
                         required
                         id="email"
@@ -126,7 +126,7 @@ const AuthForm = () => {
                     />
                     <Input
                         disabled={isLoading}
-                        register={register}
+                        register={register} //data
                         errors={errors}
                         required
                         id="password"
