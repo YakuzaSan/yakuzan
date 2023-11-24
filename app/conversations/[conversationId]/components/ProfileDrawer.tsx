@@ -7,6 +7,7 @@ import {format} from "date-fns";
 import {Dialog, Transition} from "@headlessui/react";
 import {IoClose, IoTrash} from "react-icons/io5";
 import Avatar from "@/app/components/avatar";
+import ConfirmModal from "@/app/conversations/[conversationId]/components/ConfirmModal";
 
 interface ProfileDrawerProps {
     isOpen: boolean;
@@ -27,6 +28,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
         return format(new Date(otherUser.createdAt), 'PP');
     }, [otherUser.createdAt]);
 
+
     const title = useMemo(() => {
         return data.name || otherUser.name;
     }, [data.name, otherUser.name]);
@@ -35,13 +37,15 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
         if (data.isGroup) {
             return `${data.users.length} members`;
         }
-
         return 'Active';
     }, [data]);
 
-
     return(
      <>
+         <ConfirmModal
+             isOpen={confirmOpen}
+             onClose={() => setConfirmOpen(false)}
+         />
          <Transition.Root show={isOpen} as={Fragment}>
              <Dialog as="div" className="relative z-50" onClose={onClose}>
                  <Transition.Child
@@ -95,7 +99,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                                                      {statusText}
                                                  </div>
                                                  <div className=" flex gap-10 my-8">
-                                                     <div onClick={() => {} } className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75">
+                                                     <div onClick={() => setConfirmOpen(true) } className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75">
                                                          <div className="w-10 h-10 bg-neutral-100 rounden-full flex items-center justify-center">
                                                             <IoTrash size={20}/>
                                                          </div>
@@ -146,6 +150,5 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
      </>
   )
 }
-
 
 export default ProfileDrawer;
