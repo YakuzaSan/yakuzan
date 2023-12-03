@@ -53,7 +53,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
                         sm:mx-0
                         sm:h-10
                         sm:w-10
-                      "
+          "
                 >
                     <FiAlertTriangle
                         className="h-6 w-6 text-red-600"

@@ -3,11 +3,11 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
-
+import { pusherClient } from "@/app/libs/pusher";
 import useConversation from "@/app/hooks/useConversation";
 import MessageBox from "./MessageBox";
 import { FullMessageType } from "@/app/types";
-
+import { find } from "lodash";
 
 interface BodyProps {
     initialMessages: FullMessageType[];
@@ -18,24 +18,22 @@ const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
     const [messages, setMessages] = useState(initialMessages);
 
     const { conversationId } = useConversation();
-    //The useEffect hook will run every time the conversationId changes.
-    // This is because conversationId is provided in the dependency array.
-    // If conversationId stays the same between renders, the effect will not run.
-    // In the second useEffect hook in your code, there is no dependency array provided.
-    // This means it will run after every render.
+
     useEffect(() => {
         axios.post(`/api/conversations/${conversationId}/seen`);
     }, [conversationId]);
 
     useEffect(() => {
-
+        pusherClient.subscribe(conversationId)
         bottomRef?.current?.scrollIntoView();
 
         const messageHandler = (message: FullMessageType) => {
             axios.post(`/api/conversations/${conversationId}/seen`);
 
             setMessages((current) => {
-
+                if (find(current, { id: message.id })) {
+                    return current;
+                }
 
                 return [...current, message]
             });
@@ -54,7 +52,14 @@ const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
         };
 
 
+        pusherClient.bind('messages:new', messageHandler)
+        pusherClient.bind('message:update', updateMessageHandler);
 
+        return () => {
+            pusherClient.unsubscribe(conversationId)
+            pusherClient.unbind('messages:new', messageHandler)
+            pusherClient.unbind('message:update', updateMessageHandler)
+        }
     }, [conversationId]);
 
     return (

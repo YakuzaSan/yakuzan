@@ -6,7 +6,9 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import { FullMessageType } from "@/app/types";
+
 import Avatar from "@/app/components/avatar";
+import ImageModal from "./ImageModal";
 
 interface MessageBoxProps {
     data: FullMessageType;
@@ -20,13 +22,12 @@ const MessageBox: React.FC<MessageBoxProps> = ({
     const session = useSession();
     const [imageModalOpen, setImageModalOpen] = useState(false);
 
+
     const isOwn = session.data?.user?.email === data?.sender?.email
-    const seenList = (data.seen || []).filter((user) => user.email !== data?.sender?.email).map((user) => user.name) .join(', ');
-    //filter creates a new array and look if the current user has not the same email as the sender (makes no sense if we see our message but the other person(s) as check status)
-    // map then creates also a new array from the filter
-    // and lastly join makes it to a string (mark, antonio, john)
-
-
+    const seenList = (data.seen || [])
+        .filter((user) => user.email !== data?.sender?.email)
+        .map((user) => user.name)
+        .join(', ');
 
     const container = clsx('flex gap-3 p-4', isOwn && 'justify-end');
     const avatar = clsx(isOwn && 'order-2');
@@ -52,7 +53,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
                     </div>
                 </div>
                 <div className={message}>
-
+                    <ImageModal src={data.image} isOpen={imageModalOpen} onClose={() => setImageModalOpen(false)} />
                     {data.image ? (
                         <Image
                             alt="Image"
@@ -74,11 +75,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({
                 </div>
                 {isLast && isOwn && seenList.length > 0 && (
                     <div
-                        className="
-                            text-xs
-                            font-light
-                            text-gray-500
-                            "
+                    className="
+                        text-xs
+                        font-light
+                        text-gray-500
+                        "
                     >
                         {`Seen by ${seenList}`}
                     </div>
@@ -87,4 +88,5 @@ const MessageBox: React.FC<MessageBoxProps> = ({
         </div>
     );
 }
+
 export default MessageBox;

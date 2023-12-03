@@ -71,11 +71,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                     <div className="border-b border-gray-900/10 pb-12">
                         <h2
                             className="
-                text-base
-                font-semibold
-                leading-7
-                text-gray-900
-              "
+                                text-base
+                                font-semibold
+                                leading-7
+                                text-gray-900
+                              "
                         >
                             Profile
                         </h2>
@@ -116,7 +116,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                                     <CldUploadButton
                                         options={{ maxFiles: 1 }}
                                         onUpload={handleUpload}
-                                        uploadPreset="pgc9ehd5"
+                                        uploadPreset="unohn9wh"
                                     >
                                         <Button
                                             disabled={isLoading}

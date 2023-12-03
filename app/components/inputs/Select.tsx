@@ -17,7 +17,7 @@ const Select: React.FC<SelectProps> = ({
    options,
    disabled,
 }) => {
-    return (
+return (
         <div className="z-[100]">
             <label
                 className="

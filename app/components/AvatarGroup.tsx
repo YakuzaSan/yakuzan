@@ -5,11 +5,11 @@ import Image from "next/image";
 
 interface AvatarGroupProps {
     users?: User[];
-};
+}
 
 const AvatarGroup: React.FC<AvatarGroupProps> = ({
-                                                     users = []
-                                                 }) => {
+     users = []
+ }) => {
     const slicedUsers = users.slice(0, 3);
 
     const positionMap = {
@@ -30,7 +30,7 @@ const AvatarGroup: React.FC<AvatarGroupProps> = ({
                         overflow-hidden
                         h-[21px]
                         w-[21px]
-            ${positionMap[index as keyof typeof positionMap]}
+                    ${positionMap[index as keyof typeof positionMap]}
           `}>
                     <Image
                         fill

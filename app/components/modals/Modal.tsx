@@ -12,7 +12,6 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     return (
-
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-50" onClose={onClose}>
                 <Transition.Child
@@ -24,7 +23,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-
                     <div
                         className="
                           fixed
@@ -75,7 +73,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
                                   sm:w-full
                                   sm:max-w-lg
                                   sm:p-6
-                                "
+                "
                             >
                                 <div
                                     className="

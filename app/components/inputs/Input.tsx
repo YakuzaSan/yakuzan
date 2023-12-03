@@ -18,14 +18,14 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({
-    label,
-    id,
-    register,
-    required,
-    errors,
-    type = 'text',
-    disabled,
-    }) => {
+     label,
+     id,
+     register,
+     required,
+     errors,
+     type = 'text',
+     disabled,
+ }) => {
     return (
         <div>
             <label
